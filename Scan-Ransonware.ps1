@@ -28,6 +28,70 @@ TO DO
 
 1-Enable / Check Syman tec Antivirus is running
         
+<#
+
+
+Step 1
+
+Before doing any scans, Windows 7, Windows 8, Windows 8.1, and Windows 10 users must disable System Restore to allow full scanning of their computers.
+
+Step 2
+
+Note that not all files, folders, and registry keys and entries are installed on your computer during this malware's/spyware's/grayware's execution. This may be due to incomplete installation or other operating system conditions. If you do not find the same files/folders/registry information, please proceed to the next step.
+
+Step 3
+
+Identify and terminate files detected as Trojan.PS1.UTCLOCKER.A
+[ Learn More ]
+
+    Windows Task Manager may not display all running processes. In this case, please use a third-party process viewer, preferably Process Explorer, to terminate the malware/grayware/spyware file. You may download the said tool here.
+    If the detected file is displayed in either Windows Task Manager or Process Explorer but you cannot delete it, restart your computer in safe mode. To do this, refer to this link for the complete steps.
+    If the detected file is not displayed in either Windows Task Manager or Process Explorer, continue doing the next steps.
+
+Step 4
+
+Delete this registry value
+[ Learn More ]
+
+Important: Editing the Windows Registry incorrectly can lead to irreversible system malfunction. Please do this step only if you know how or you can ask assistance from your system administrator. Else, check this Microsoft article first before modifying your computer's registry.
+ 
+
+    In HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Run
+        Windows Defender Deamon = "C:\Windows\system32\cmd.exe /c reg query "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\SharedScripts" /se " " /v "TEXT_01" | powershell "-" 2>nul"
+
+Step 5
+
+Restore this modified registry value
+[ Learn More ]
+
+Important: Editing the Windows Registry incorrectly can lead to irreversible system malfunction. Please do this step only if you know how or you can ask assistance from your system administrator. Else, check this Microsoft article first before modifying your computer's registry.
+
+    In HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon
+        AutoAdminLogon = 1
+    In HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon
+        AutoLogonSID = ""
+    In HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon
+        DefaultDomainName = ""
+    In HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon
+        DefaultUserName = "Login account disabled due to system failure!Only members of {VICTIM ID} are allowed to email {VICTIM ID}@protonmail.com for assisstance.Identify yourselfwhile contact!"
+    In HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon
+        DefaultPassword = ""
+
+Step 6
+
+Delete this registry key
+[ Learn More ]
+
+Important: Editing the Windows Registry incorrectly can lead to irreversible system malfunction. Please do this step only if you know how or you can ask assistance from your system administrator. Else, check this Microsoft article first before modifying your computer's registry.
+
+    HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\.NETFramework\SecurityFolders\v2.0.3071
+    HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\.NETFramework\SecurityFolders\v3.0.5109
+
+Step 7
+
+Scan your computer with your Trend Micro product to delete files detected as Trojan.PS1.UTCLOCKER.A. If the detected files have already been cleaned, deleted, or quarantined by your Trend Micro product, no further step is required. You may opt to simply delete the quarantined files. Please check the following Trend Micro Support pages for more information:
+#>
+
 2-Update SEP Definitions
 
 3-Ensure the Server has the latest Windows Security Bundle / Patch (Mar 2020)
@@ -148,3 +212,4 @@ Scan your computer with your Trend Micro product to delete files detected as Tro
 
 #>
 End 
+
